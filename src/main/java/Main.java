@@ -21,10 +21,10 @@ public class Main {
 
         }
 
-        // 5 потоков философов
+
         for (Philosopher phil : philosophers) {
-            new Thread(phil).start();
-        }
+                new Thread(phil).start();
+                           }
 
 
     }

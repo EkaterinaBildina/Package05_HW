@@ -2,19 +2,21 @@ public class Philosopher implements Runnable {
     private final int philNum;
     private final ForkID rightForkPosition;
     private final ForkID leftForkPosition;
+    private int countEat;
 
 
     public Philosopher(int philNum, ForkID rightForkPosition, ForkID leftForkPosition) {
         this.philNum = philNum;
         this.rightForkPosition = rightForkPosition;
         this.leftForkPosition = leftForkPosition;
+        countEat = 0;
 
     }
 
     // Каждый философ может либо есть, либо размышлять.
     @Override
     public void run() {
-        while (true) {
+        while (countEat < 3) {
             //Философ не может есть два раза подряд,
             //не прервавшись на размышления
             System.out.println("Филосов " + philNum + " размышляет.");
@@ -28,10 +30,10 @@ public class Philosopher implements Runnable {
 
             synchronized (rightForkPosition) {
                 synchronized (leftForkPosition) {
+                    countEat++;
                     System.out.println("Филосов " + philNum + " держит вилки " + rightForkPosition.getForkID()
                             + " в правой руке и " + leftForkPosition.getForkID() + " в левой руке. ЕСТ");
-                     try {
-
+                    try {
                         rightForkPosition.pickUpFork();
                         leftForkPosition.pickUpFork();
                         Thread.sleep(1000);
@@ -52,4 +54,6 @@ public class Philosopher implements Runnable {
             System.out.println("Филосов " + philNum + " положил вилки на стол");
         }
     }
+
+
 }
